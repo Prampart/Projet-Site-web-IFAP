@@ -837,10 +837,44 @@ function displayRecentLinks() {
 // Affichage au chargement
 displayRecentLinks();
 </script>
+    <script>
+function loadModuleHistory(moduleId) {
+    const historyKey = "history_" + moduleId;
+    const container = document.getElementById("history-" + moduleId);
+
+    if (!container) return;
+
+    const history = JSON.parse(localStorage.getItem(historyKey)) || [];
+
+    if (history.length === 0) {
+        container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.9rem;'>Aucun lien consulté récemment</p>";
+        return;
+    }
+
+    container.innerHTML = `
+        <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Derniers liens consultés</h4>
+        <ul class="course-list">
+            ${history.map(h => `
+                <li class="course-item">
+                    <a href="${h.url}" class="course-link">${h.title}</a>
+                </li>
+            `).join("")}
+        </ul>
+    `;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadModuleHistory("module1");
+    loadModuleHistory("module2");
+    loadModuleHistory("module3");
+    loadModuleHistory("module4");
+});
+</script>
 </body>
 
 
 </html>
+
 
 
 
