@@ -782,6 +782,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
+    <script>
+document.addEventListener("click", function(e) {
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    const href = link.getAttribute("href");
+    const title = link.textContent.trim();
+
+    if (!href || href === "#" || href.endsWith(".html")) return;
+
+    const key = "history_module3";
+    let history = JSON.parse(localStorage.getItem(key)) || [];
+
+    history.unshift({ title, url: href });
+    history = history.slice(0, 2);
+
+    localStorage.setItem(key, JSON.stringify(history));
+});
+</script>
     <body data-module="module3">
 </body>
 
