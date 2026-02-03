@@ -456,6 +456,19 @@
             outline-offset: 2px;
             border-radius: 6px;
         }
+        /* Animation modules */
+.module-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
     </style>
 </head>
 
@@ -512,94 +525,91 @@
             <h2 id="modulesTitle" class="section-title">Vos Modules de Formation</h2>
 
             <!-- Module 1 -->
-            <div class="module-card" id="module1">
-                <div class="module-header">
-                    <div>
-                        <h3 class="module-title">
-                            <a href="Module_1/Module_1_Accueil.html" onclick="toggleModuleContent('module1-content')">
-                                Module 1
-                            </a>
-                        </h3>
+<div class="module-card" id="module1">
+    <div class="module-header">
+        <div>
+            <h3 class="module-title">
+                <a href="Module_1/Module_1_Accueil.html">Module 1</a>
+            </h3>
+            <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
+        </div>
+    </div>
 
-                        <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
-                    </div>
-                </div>
-                <div class="themes-grid">
-                    <!-- Historique -->
-                    <div class="theme-card">
-                        <h4 class="theme-title">
-                            <span class="theme-icon" aria-hidden="true">📚</span>
-                            Historique
-                        </h4>
-                        <div class="module-history" id="history-module1"></div>
-                    </div>
-                </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+            <div class="module-history" id="history-module1"></div>
+        </div>
+    </div>
+</div> 
+            <!-- FIN MODULE 1 -->
+
+
 
             <!-- Module 2 -->
-            <div class="module-card" id="module2">
-                <div class="module-header">
-                    <div>
-                        <h3 class="module-title">
-                            <a href="Module_2/Module_2_Accueil.html" onclick="toggleModuleContent('module2-content')">
-                                Module 2
-                            </a>
-                        </h3>
+<div class="module-card" id="module2">
+    <div class="module-header">
+        <div>
+            <h3 class="module-title">
+                <a href="Module_2/Module_2_Accueil.html">Module 2</a>
+            </h3>
+            <p class="module-description">Le nouveau-né et ses caractéristiques</p>
+        </div>
+    </div>
 
-                        <p class="module-description">Le nouveau-né et ses caractéristiques</p>
-                    </div>
-                </div>
-                <div class="themes-grid">
+    <div class="themes-grid">
+        <div class="theme-card">
+            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+            <div class="module-history" id="history-module2"></div>
+        </div>
+    </div>
+</div> 
+            <!-- FIN MODULE 2 -->
 
-                    <!-- Historique -->
-                    <div class="theme-card">
-                        <h4 class="theme-title"><span class="theme-icon" aria-hidden="true">📚</span>Historique</h4>
-                        <div class="module-history" id="history-module2"></div>
-                    </div>
-                </div>
 
             <!-- Module 3 -->
-            <div class="module-card" id="module3">
-                <div class="module-header">
-                    <div>
-                        <h3 class="module-title">
-                            <a href="Module_3/Module_3_Accueil.html" onclick="toggleModuleContent('module3-content')">
-                                Module 3
-                            </a>
-                        </h3>
+<div class="module-card" id="module3">
+    <div class="module-header">
+        <div>
+            <h3 class="module-title">
+                <a href="Module_3/Module_3_Accueil.html">Module 3</a>
+            </h3>
+            <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
+        </div>
+    </div>
 
-                        <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
-                    </div>
-                </div>
-                <div class="themes-grid">
-                    <!-- Historique -->
-                    <div class="theme-card">
-                        <h4 class="theme-title"><span class="theme-icon" aria-hidden="true">📚</span>Historique
-                        </h4>
-                        <div class="module-history" id="history-module3"></div>
-                    </div>
-                </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+            <div class="module-history" id="history-module3"></div>
+        </div>
+    </div>
+</div> 
+            <!-- FIN MODULE 3 -->
+
+
 
             <!-- Module 4 -->
-            <div class="module-card" id="module4">
-                <div class="module-header">
-                    <div>
-                        <h3 class="module-title">
-                            <a href="Module_4/Module_4_Accueil.html" onclick="toggleModuleContent('module4-content')">
-                                Module 4
-                            </a>
-                        </h3>
+<div class="module-card" id="module4">
+    <div class="module-header">
+        <div>
+            <h3 class="module-title">
+                <a href="Module_4/Module_4_Accueil.html">Module 4</a>
+            </h3>
+            <p class="module-description">Pathologies, soins et surveillance des enfants</p>
+        </div>
+    </div>
 
-                        <p class="module-description">Pathologies, soins et surveillance des enfants</p>
-                    </div>
-                </div>
-                <div class="themes-grid">
-                    <!-- Historique -->
-                    <div class="theme-card">
-                        <h4 class="theme-title"><span class="theme-icon" aria-hidden="true">🏥</span>Historique
-                        </h4>
-                        <div class="module-history" id="history-module4"></div>
-                    </div>
-                </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+            <div class="module-history" id="history-module4"></div>
+        </div>
+    </div>
+</div> 
+            <!-- FIN MODULE 4 -->
+
+
 
         </section>
     </main>
@@ -817,6 +827,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 </html>
+
 
 
 
