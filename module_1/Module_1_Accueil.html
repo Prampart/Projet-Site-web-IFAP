@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFAP - Plateforme de Cours Puériculture</title>
+    <style>
+        /* Reset et variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #242424;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --accent: #4a9eff;
+            --accent-hover: #6ab0ff;
+            --border-color: #2a2a2a;
+            --transition: all 0.3s ease;
+        }
+
+        /* Thème clair (override) */
+        :root.light {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f7fb;
+            --bg-tertiary: #ffffff;
+            --text-primary: #0b1220;
+            --text-secondary: #4b5563;
+            --accent: #0b6efd;
+            --accent-hover: #0d8bff;
+            --border-color: #e6e9ef;
+        }
+
+        /* Respecter préférence système par défaut */
+        @media (prefers-color-scheme: light) {
+            :root:not(.theme-locked) {
+                /* theme-locked sera ajouté si l'utilisateur choisit explicitement */
+                --bg-primary: #ffffff;
+                --bg-secondary: #f5f7fb;
+                --bg-tertiary: #ffffff;
+                --text-primary: #0b1220;
+                --text-secondary: #4b5563;
+                --accent: #0b6efd;
+                --accent-hover: #0d8bff;
+                --border-color: #e6e9ef;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.35s ease, color 0.35s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            transition: background-color var(--transition), border-color var(--transition);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            flex: 1;
+            max-width: 420px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.08);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Theme toggle */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.45rem 0.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover,
+        .theme-toggle:focus {
+            border-color: var(--accent);
+            box-shadow: 0 4px 14px rgba(74, 158, 255, 0.08);
+            outline: none;
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            transition: padding 0.2s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Module Cards */
+        .modules-section {
+            margin-top: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .module-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .module-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.06);
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .module-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Themes Grid */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        .theme-card {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: var(--transition);
+        }
+
+        .theme-card:hover {
+            border-color: var(--accent);
+            background-color: rgba(74, 158, 255, 0.03);
+        }
+
+        .theme-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* Courses List */
+        .course-list {
+            list-style: none;
+        }
+
+        .course-item {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        .course-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .course-link:hover {
+            color: var(--accent);
+            padding-left: 0.4rem;
+        }
+
+        .course-icon {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .course-link:hover .course-icon {
+            opacity: 1;
+        }
+
+        /* Search Results */
+        .search-results {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .search-result-item:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--accent);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-module {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-top: 2.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+                padding: 0.5rem 1rem;
+                gap: 0.5rem;
+            }
+
+            .search-container {
+                max-width: none;
+                order: 3;
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .themes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .theme-toggle {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Focus visible for accessibility */
+        :focus-visible {
+            outline: 3px solid rgba(11, 110, 253, 0.18);
+            outline-offset: 2px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo" aria-label="IFAP Puériculture accueil">IFAP
+                <span>Puériculture</span></a>
+
+            <div class="search-container" style="position: relative;">
+                <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un cours, un thème..."
+                    aria-label="Rechercher un cours ou un thème">
+                <div class="search-results" id="searchResults" role="listbox" aria-label="Résultats de recherche"></div>
+            </div>
+
+            <div class="controls" role="region" aria-label="Contrôles">
+                <!-- Theme toggle button -->
+                <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Basculer thème sombre clair">
+                    <!-- Icon will be updated by JS -->
+                    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"></path>
+                    </svg>
+                    <span id="themeLabel">Sombre</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="mainContent">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="heroTitle">
+            <h1 id="heroTitle">Plateforme de Cours IFAP</h1>
+            <p>Organisez, consultez et explorez tous vos cours de formation en puériculture</p>
+        </section>
+
+        <!-- Stats -->
+        <div class="stats-bar" role="region" aria-label="Statistiques">
+            <div class="stat-item">
+                <div class="stat-number" id="stat-modules">0</div>
+                <div class="stat-label">Modules</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="stat-themes">0</div>
+                <div class="stat-label">Thèmes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="stat-cours">0</div>
+                <div class="stat-label">Cours & Exercices</div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+
+                    // 1. Compter les modules
+                    const modules = document.querySelectorAll(".module-card").length;
+                    document.getElementById("stat-modules").textContent = modules;
+
+                    // 2. Compter les thèmes (chaque .theme-card)
+                    const themes = document.querySelectorAll(".theme-card").length;
+                    document.getElementById("stat-themes").textContent = themes;
+
+                    // 3. Compter les cours (chaque .course-item)
+                    const cours = document.querySelectorAll(".course-item").length;
+                    document.getElementById("stat-cours").textContent = cours;
+                });
+            </script>
+        </div>
+
+        <!-- Modules Section -->
+        <section class="modules-section" aria-labelledby="modulesTitle">
+            <h2 id="modulesTitle" class="section-title">Vos Modules de Formation</h2>
+
+            <!-- Module 1 -->
+            <div class="module-card" id="module1">
+                <div class="module-header">
+                    <div>
+                        <h3 class="module-title">Module 1</h3>
+                        <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
+                    </div>
+                </div>
+                <div class="themes-grid">
+                    <!-- Théories -->
+                    <div class="theme-card">
+                        <h4 class="theme-title">
+                            <span class="theme-icon" aria-hidden="true">📚</span>
+                            Théories
+                        </h4>
+                        <ul class="course-list">
+                            <li class="course-item"><a href="Module_1/Introduction_a_la_puericulture.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Introduction
+                                    à la puériculture</a></li>
+                            <li class="course-item"><a href="Module_1/ENV_GRP_SOCIAUX.pdf" class="course-link"><span
+                                        class="course-icon" aria-hidden="true"></span>Environnement culturel et groupes
+                                    sociaux</a></li>
+                            <li class="course-item"><a href="Module_1/Le_statut_juridique_de_l_enfant_.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Le statut
+                                    juridique de l'enfant</a></li>
+                            <li class="course-item"><a href="Module_1/M1_2024-2025_Theorie_Observation.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Théorie de
+                                    l'observation</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/word_Theorie_du_Raisonnement_clinique_-Demarche_clinique_en_EAJE.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Raisonnement
+                                    clinique</a></li>
+                            <li class="course-item"><a href="Module_1/ALLAITEMENT/2025-B1-M1-allaitement_maternel.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Allaitement
+                                    maternel</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/Diététique cours N1/cours_diet_n1.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Diététique
+                                    cours N1</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/DIETETIQUE/Diététique cours N1/la_pyramide_alimentaire.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>La
+                                    pyramide alimentaire</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/DIETETIQUE/Diététique cours N1/tableau_recapitulatif_des_groupes_d_aliments.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Tableau
+                                    récapitulatif des groupes d'aliments</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/DIETETIQUE/Diététique cours N1/tableau_recapitulatif_vitamines_sels_mineraux.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Tableau
+                                    récapitulatif vitamines, sels et minéraux</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/Diététique cours N2/cours_diet_n2.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Cours
+                                    diététique N2</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/DIETETIQUE/Diététique cours N2/LIVRET__RECAPITULATIF_COURS_DIET_N2.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Livret
+                                    récapitulatif cours diététique N2</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/La_politique_du_handicap/La_politique_du_handicap.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>La politique
+                                    du handicap</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/La_politique_du_handicap/Annexe_doc-Coordonnees_services_repit_loisirs_vacances-octobre_2023.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Annexe
+                                    doc-Coordonnees services repit loisirs vacances</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/La_politique_du_handicap/dossier_de_presse_-_cnh_2020.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Dossier de
+                                    presse</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/La_politique_du_handicap/Plaquette_Repit_Accueil_temporaire_loisirs_vacances-octobre_2023.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Plaquette
+                                    Repit Accueil temporaire loisirs vacances</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/LE_SOMMEIL_et_LES_TROUBLES_DU_SOMMEIL/Le_sommeil.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Le
+                                    sommeil</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/LE_SOMMEIL_et_LES_TROUBLES_DU_SOMMEIL/le_sommeil_du_nourrisson-PROSOM.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Le sommeil
+                                    du nourrisson</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/LE_SOMMEIL_et_LES_TROUBLES_DU_SOMMEIL/Les_troubles_du_sommeil.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Les troubles
+                                    du sommeil</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/PSYCHOLOGIE__MME__CHAVENT/cours_developpement_cognitif_de_l_enfant_Mme_CHAVENT.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Cours
+                                    développement cognitif de l'enfant</a></li>
+                            <li class="course-item"><a href="Module_1/PUERICULTURE_1/1_-_La_vie_intra-uterine.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>La vie
+                                    intra-uterine</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/PUERICULTURE_1/1_-_La_vie_intra-uterine_Correction_ELEVES__-2-.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Correction
+                                    élèves</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Travaux Pratiques -->
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon" aria-hidden="true">🔧</span>Travaux Pratiques
+                        </h4>
+                        <ul class="course-list">
+                            <li class="course-item"><a href="Module_1/TP_change_du_nourrisson_et_hygiene_des_mains.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Change du
+                                    nourrisson</a></li>
+                            <li class="course-item"><a href="https://quizzbox1.preventioninfection.fr/"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Hygiène des
+                                    mains (Quizz)</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_bain_du_nouveau_ne.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Bain du
+                                    nouveau-né</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_d_oreille.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    d'oreille</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_cordon.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    de cordon</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_nez_a_la_seringue.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    de nez à la seringue</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_nez_et_DRP.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    de nez et DRP</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_des_yeux.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    des yeux</a></li>
+                            <li class="course-item"><a href="Module_1/TP_Refection_lits.pdf" class="course-link"><span
+                                        class="course-icon" aria-hidden="true"></span>Réfection de
+                                    lits (vide et occupé)</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/quiz_cours_dietn1.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Quiz cours
+                                    diététique N1</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/QUIZ_COURS_DIETN2.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Quiz cours
+                                    diététique N2</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TD_Systeme_de_sante_et_Prestations_sociales_et_familiales/Le_systeme_de_sante_en_France.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Le système
+                                    de santé en France</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_bain_du_nouveau_ne.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Bain du
+                                    nouveau
+                                    né</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_d_oreille.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin
+                                    d'oreille</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_cordon.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin de
+                                    cordon</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_nez_a_la_seringue.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin de nez
+                                    à la seringue</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/TP_bain_et_soins_annexes/TP_soin_de_nez_et_DRP.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin de nez
+                                    et DRP</a></li>
+                            <li class="course-item"><a href="Module_1/TP_bain_et_soins_annexes/TP_soin_des_yeux.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Soin des
+                                    yeux</a></li>
+
+
+                        </ul>
+                    </div>
+
+                    <!-- Corrections & Exercices -->
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon" aria-hidden="true">✓</span>Corrections &
+                            Exercices</h4>
+                        <ul class="course-list">
+                            <li class="course-item"><a
+                                    href="Module_1/Correction_demarche_clinique_cas_concret_Jules.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Cas concret
+                                    Jules (9 mois)</a></li>
+                            <li class="course-item"><a href="Module_1/Correction_demarche_clinique_Hector.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Cas concret
+                                    Hector (2-3 ans)</a></li>
+                            <li class="course-item"><a href="Module_1/Pistes_de_correction_grille_de_lecture.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Grille de
+                                    lecture - Corrections</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/CORRECTION_QUIZ_COURS_DIET1.pdf"
+                                    class="course-link"><span class="course-icon" aria-hidden="true"></span>Correction
+                                    quiz cours diététique N1</a></li>
+                            <li class="course-item"><a href="Module_1/DIETETIQUE/CORRECTION_QUIZ_DIET2.pdf"
+                                    class=" course-link"><span class="course-icon" aria-hidden="true"></span>Correction
+                                    quiz cours diététique N2</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/DIETETIQUE/correction_des_calculs_en_TP_biberon.pdf"
+                                    class=" course-link"><span class="course-icon" aria-hidden="true"></span>Correction
+                                    des calculs en TP biberon</a></li>
+                            <li class="course-item"><a
+                                    href="Module_1/La_politique_du_handicap/Correction_TD_La_politique_du_handicap.pdf"
+                                    class=" course-link"><span class="course-icon" aria-hidden="true"></span>Correction
+                                    TD La politique du handicap</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </section>
+    </main>
+
+    <footer>
+        © <span id="year"></span> Erwann PRAMPART - Tous droits réservés
+    </footer>
+
+    <script>
+        // Affiche l'année courante
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Thème : gestion, sauvegarde et accessibilité
+        (function () {
+            const root = document.documentElement;
+            const toggle = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            const STORAGE_KEY = 'ifap_theme'; // 'light' or 'dark'
+
+            // Met à jour l'UI du bouton selon le thème
+            function updateToggleUI(theme) {
+                const isLight = theme === 'light';
+                toggle.setAttribute('aria-pressed', String(isLight));
+                label.textContent = isLight ? 'Clair' : 'Sombre';
+                // Icon SVG : soleil pour clair, lune pour sombre
+                if (isLight) {
+                    icon.innerHTML = '<path d="M12 4.5a1 1 0 0 1 1 1V8a1 1 0 1 1-2 0V5.5a1 1 0 0 1 1-1zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 11a1 1 0 0 1 1-1H8a1 1 0 1 1 0 2H5.5a1 1 0 0 1-1-1zM16 11a1 1 0 0 1 1-1h2.5a1 1 0 1 1 0 2H17a1 1 0 0 1-1-1zM6.22 6.22a1 1 0 0 1 1.42 0l1.77 1.77a1 1 0 1 1-1.42 1.42L6.22 7.64a1 1 0 0 1 0-1.42zM15.59 15.59a1 1 0 0 1 1.42 0l1.77 1.77a1 1 0 1 1-1.42 1.42l-1.77-1.77a1 1 0 0 1 0-1.42zM6.22 17.78a1 1 0 0 1 0-1.42L7.99 14.6a1 1 0 1 1 1.42 1.42L7.64 17.78a1 1 0 0 1-1.42 0zM15.59 8.41a1 1 0 0 1 0-1.42l1.77-1.77a1 1 0 1 1 1.42 1.42L17 8.41a1 1 0 0 1-1.41 0z" fill="currentColor"/>';
+                } else {
+                    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>';
+                }
+            }
+
+            // Applique le thème sur le root
+            function applyTheme(theme, lock = false) {
+                if (theme === 'light') {
+                    root.classList.add('light');
+                } else {
+                    root.classList.remove('light');
+                }
+                if (lock) {
+                    root.classList.add('theme-locked');
+                } else {
+                    root.classList.remove('theme-locked');
+                }
+                updateToggleUI(theme);
+            }
+
+            // Lecture du stockage ou préférence système
+            function initTheme() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved === 'light' || saved === 'dark') {
+                    applyTheme(saved, true);
+                } else {
+                    // Pas de préférence enregistrée : respecter prefers-color-scheme
+                    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+                    applyTheme(prefersLight ? 'light' : 'dark', false);
+                }
+            }
+
+            // Basculer thème et sauvegarder
+            function toggleTheme() {
+                const currentIsLight = root.classList.contains('light');
+                const newTheme = currentIsLight ? 'dark' : 'light';
+                applyTheme(newTheme, true);
+                try {
+                    localStorage.setItem(STORAGE_KEY, newTheme);
+                } catch (e) {
+                    // localStorage peut être bloqué en mode privé ; on ignore l'erreur
+                    console.warn('Impossible de sauvegarder le thème', e);
+                }
+            }
+
+            // Initialisation
+            initTheme();
+            // Mettre à jour si l'utilisateur change la préférence système et qu'il n'a pas verrouillé son choix
+            if (window.matchMedia) {
+                const mq = window.matchMedia('(prefers-color-scheme: light)');
+                mq.addEventListener ? mq.addEventListener('change', e => {
+                    if (!root.classList.contains('theme-locked')) {
+                        applyTheme(e.matches ? 'light' : 'dark', false);
+                    }
+                }) : mq.addListener(e => {
+                    if (!root.classList.contains('theme-locked')) {
+                        applyTheme(e.matches ? 'light' : 'dark', false);
+                    }
+                });
+            }
+
+            // Événements
+            toggle.addEventListener('click', toggleTheme);
+            toggle.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+        })();
+
+        // Exemple simple de recherche (placeholder) pour activer l'affichage des résultats
+        (function () {
+            const input = document.getElementById('searchInput');
+            const results = document.getElementById('searchResults');
+
+            input.addEventListener('input', function () {
+                const q = input.value.trim();
+                if (!q) {
+                    results.classList.remove('active');
+                    results.innerHTML = '';
+                    return;
+                }
+                // Exemple statique : dans une vraie app, remplacer par recherche côté serveur ou index
+                const sample = [
+                    { title: 'Introduction à la puériculture', module: 'Module 1' },
+                    { title: 'Change du nourrisson', module: 'Module 1' },
+                    { title: 'Premiers soins du nouveau-né', module: 'Module 2' },
+                    { title: 'Observation de l\'état cutané', module: 'Module 3' }
+                ];
+                const filtered = sample.filter(item => item.title.toLowerCase().includes(q.toLowerCase()));
+                if (filtered.length === 0) {
+                    results.innerHTML = '<div class="search-result-item">Aucun résultat</div>';
+                } else {
+                    results.innerHTML = filtered.map(item =>
+                        `<div class="search-result-item" role="option" tabindex="0">
+                            <div class="result-title">${item.title}</div>
+                            <div class="result-module">${item.module}</div>
+                        </div>`
+                    ).join('');
+                }
+                results.classList.add('active');
+            });
+
+            // Fermer résultats au clic en dehors
+            document.addEventListener('click', function (e) {
+                if (!document.querySelector('.search-container').contains(e.target)) {
+                    results.classList.remove('active');
+                }
+            });
+
+            // Permettre sélection clavier des résultats
+            results.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    results.classList.remove('active');
+                    input.focus();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
