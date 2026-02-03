@@ -823,10 +823,43 @@ document.addEventListener("DOMContentLoaded", () => {
     loadModuleHistory("module4");
 });
 </script>
+    <script>
+function loadModuleHistory(moduleId) {
+    const key = "history_" + moduleId;
+    const container = document.getElementById("history-" + moduleId);
+
+    if (!container) return;
+
+    const history = JSON.parse(localStorage.getItem(key)) || [];
+
+    if (history.length === 0) {
+        container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.9rem;'>Aucun lien consulté récemment</p>";
+        return;
+    }
+
+    container.innerHTML = `
+        <ul class="course-list">
+            ${history.map(h => `
+                <li class="course-item">
+                    <a href="${h.url}" class="course-link">${h.title}</a>
+                </li>
+            `).join("")}
+        </ul>
+    `;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadModuleHistory("module1");
+    loadModuleHistory("module2");
+    loadModuleHistory("module3");
+    loadModuleHistory("module4");
+});
+</script>
 </body>
 
 
 </html>
+
 
 
 
