@@ -778,9 +778,35 @@
             });
         })();
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const moduleId = document.body.getAttribute("data-module"); 
+    const links = document.querySelectorAll("a.course-link");
+
+    links.forEach(link => {
+        link.addEventListener("click", () => {
+            const historyKey = "history_" + moduleId;
+            const entry = {
+                title: link.textContent.trim(),
+                url: link.getAttribute("href"),
+                timestamp: Date.now()
+            };
+
+            let history = JSON.parse(localStorage.getItem(historyKey)) || [];
+
+            history.unshift(entry);
+            history = history.slice(0, 2); // garder seulement les 2 derniers
+
+            localStorage.setItem(historyKey, JSON.stringify(history));
+        });
+    });
+});
+</script>
+    <body data-module="module1">
 </body>
 
 </html>
+
 
 
 
