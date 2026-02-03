@@ -40,7 +40,6 @@
         /* Respecter préférence système par défaut */
         @media (prefers-color-scheme: light) {
             :root:not(.theme-locked) {
-                /* theme-locked sera ajouté si l'utilisateur choisit explicitement */
                 --bg-primary: #ffffff;
                 --bg-secondary: #f5f7fb;
                 --bg-tertiary: #ffffff;
@@ -252,7 +251,6 @@
             color: var(--accent);
         }
 
-        /* Titre Module 2 cliquable */
         .module-title a {
             color: inherit;
             text-decoration: none;
@@ -262,12 +260,6 @@
         .module-title a:hover {
             text-decoration: underline;
         }
-
-        /* Permet de masquer/afficher le contenu */
-        .themes-grid.hidden {
-            display: none;
-        }
-
 
         .module-description {
             color: var(--text-secondary);
@@ -456,19 +448,20 @@
             outline-offset: 2px;
             border-radius: 6px;
         }
-        /* Animation modules */
-.module-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease-out forwards;
-}
 
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        /* Animation modules */
+        .module-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
@@ -487,7 +480,6 @@
             <div class="controls" role="region" aria-label="Contrôles">
                 <!-- Theme toggle button -->
                 <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="Basculer thème sombre clair">
-                    <!-- Icon will be updated by JS -->
                     <svg id="themeIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"></path>
                     </svg>
@@ -520,96 +512,90 @@
                 <div class="stat-label">Cours & Exercices</div>
             </div>
         </div>
-<!-- Modules Section -->
+
+        <!-- Modules Section -->
         <section class="modules-section" aria-labelledby="modulesTitle">
             <h2 id="modulesTitle" class="section-title">Vos Modules de Formation</h2>
 
             <!-- Module 1 -->
-<div class="module-card" id="module1">
-    <div class="module-header">
-        <div>
-            <h3 class="module-title">
-                <a href="Module_1/Module_1_Accueil.html">Module 1</a>
-            </h3>
-            <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
-        </div>
-    </div>
+            <div class="module-card module-animate" id="module1">
+                <div class="module-header">
+                    <div>
+                        <h3 class="module-title">
+                            <a href="Module_1/Module_1_Accueil.html">Module 1</a>
+                        </h3>
+                        <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
+                    </div>
+                </div>
 
-    <div class="themes-grid">
-        <div class="theme-card">
-            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
-            <div class="module-history" id="history-module1"></div>
-        </div>
-    </div>
-</div> 
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+                        <div class="module-history" id="history-module1"></div>
+                    </div>
+                </div>
+            </div>
             <!-- FIN MODULE 1 -->
 
-
-
             <!-- Module 2 -->
-<div class="module-card" id="module2">
-    <div class="module-header">
-        <div>
-            <h3 class="module-title">
-                <a href="Module_2/Module_2_Accueil.html">Module 2</a>
-            </h3>
-            <p class="module-description">Le nouveau-né et ses caractéristiques</p>
-        </div>
-    </div>
+            <div class="module-card module-animate" id="module2">
+                <div class="module-header">
+                    <div>
+                        <h3 class="module-title">
+                            <a href="Module_2/Module_2_Accueil.html">Module 2</a>
+                        </h3>
+                        <p class="module-description">Le nouveau-né et ses caractéristiques</p>
+                    </div>
+                </div>
 
-    <div class="themes-grid">
-        <div class="theme-card">
-            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
-            <div class="module-history" id="history-module2"></div>
-        </div>
-    </div>
-</div> 
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+                        <div class="module-history" id="history-module2"></div>
+                    </div>
+                </div>
+            </div>
             <!-- FIN MODULE 2 -->
 
-
             <!-- Module 3 -->
-<div class="module-card" id="module3">
-    <div class="module-header">
-        <div>
-            <h3 class="module-title">
-                <a href="Module_3/Module_3_Accueil.html">Module 3</a>
-            </h3>
-            <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
-        </div>
-    </div>
+            <div class="module-card module-animate" id="module3">
+                <div class="module-header">
+                    <div>
+                        <h3 class="module-title">
+                            <a href="Module_3/Module_3_Accueil.html">Module 3</a>
+                        </h3>
+                        <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
+                    </div>
+                </div>
 
-    <div class="themes-grid">
-        <div class="theme-card">
-            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
-            <div class="module-history" id="history-module3"></div>
-        </div>
-    </div>
-</div> 
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+                        <div class="module-history" id="history-module3"></div>
+                    </div>
+                </div>
+            </div>
             <!-- FIN MODULE 3 -->
 
-
-
             <!-- Module 4 -->
-<div class="module-card" id="module4">
-    <div class="module-header">
-        <div>
-            <h3 class="module-title">
-                <a href="Module_4/Module_4_Accueil.html">Module 4</a>
-            </h3>
-            <p class="module-description">Pathologies, soins et surveillance des enfants</p>
-        </div>
-    </div>
+            <div class="module-card module-animate" id="module4">
+                <div class="module-header">
+                    <div>
+                        <h3 class="module-title">
+                            <a href="Module_4/Module_4_Accueil.html">Module 4</a>
+                        </h3>
+                        <p class="module-description">Pathologies, soins et surveillance des enfants</p>
+                    </div>
+                </div>
 
-    <div class="themes-grid">
-        <div class="theme-card">
-            <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
-            <div class="module-history" id="history-module4"></div>
-        </div>
-    </div>
-</div> 
+                <div class="themes-grid">
+                    <div class="theme-card">
+                        <h4 class="theme-title"><span class="theme-icon">📚</span>Historique</h4>
+                        <div class="module-history" id="history-module4"></div>
+                    </div>
+                </div>
+            </div>
             <!-- FIN MODULE 4 -->
-
-
 
         </section>
     </main>
@@ -680,14 +666,6 @@
             toggle.addEventListener('click', toggleTheme);
         })();
 
-        // GESTION DES MODULES (Ouvrir/Fermer le contenu)
-        function toggleModuleContent(contentId) {
-            const content = document.getElementById(contentId);
-            if (content) {
-                content.classList.toggle('hidden');
-            }
-        }
-
         // MOTEUR DE RECHERCHE
         (function () {
             const input = document.getElementById('searchInput');
@@ -746,123 +724,40 @@
                 }
             });
         })();
+
+        // HISTORIQUE PAR MODULE
+        function loadModuleHistory(moduleId) {
+            const historyKey = 'history_' + moduleId;
+            const container = document.getElementById('history-' + moduleId);
+
+            if (!container) return;
+
+            const history = JSON.parse(localStorage.getItem(historyKey)) || [];
+
+            if (history.length === 0) {
+                container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.9rem;'>Aucun lien consulté récemment</p>";
+                return;
+            }
+
+            container.innerHTML = `
+                <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Derniers liens consultés</h4>
+                <ul class="course-list">
+                    ${history.map(h => `
+                        <li class="course-item">
+                            <a href="${h.url}" class="course-link">${h.title}</a>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadModuleHistory('module1');
+            loadModuleHistory('module2');
+            loadModuleHistory('module3');
+            loadModuleHistory('module4');
+        });
     </script>
-    <script>
-// Enregistre un lien cliqué
-document.addEventListener("click", function(e) {
-    const link = e.target.closest("a");
-    if (!link) return;
-
-    const href = link.getAttribute("href");
-    const text = link.textContent.trim();
-
-    // On ignore les liens vides ou #
-    if (!href || href === "#") return;
-
-    // Récupérer l'historique existant
-    let history = JSON.parse(localStorage.getItem("recentLinks") || "[]");
-
-    // Ajouter le nouveau lien en tête
-    history.unshift({ text, href });
-
-    // Garder seulement les 2 derniers
-    history = history.slice(0, 2);
-
-    // Sauvegarder
-    localStorage.setItem("recentLinks", JSON.stringify(history));
-
-    // Mettre à jour l'affichage
-    displayRecentLinks();
-});
-
-// Affiche les 2 derniers liens
-function displayRecentLinks() {
-    const container = document.getElementById("recent-links");
-    if (!container) return;
-
-    const history = JSON.parse(localStorage.getItem("recentLinks") || "[]");
-
-    container.innerHTML = history
-        .map(item => `<li class="course-item"><a href="${item.href}" class="course-link">${item.text}</a></li>`)
-        .join("");
-}
-
-// Affichage au chargement
-displayRecentLinks();
-</script>
-    <script>
-function loadModuleHistory(moduleId) {
-    const historyKey = "history_" + moduleId;
-    const container = document.getElementById("history-" + moduleId);
-
-    if (!container) return;
-
-    const history = JSON.parse(localStorage.getItem(historyKey)) || [];
-
-    if (history.length === 0) {
-        container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.9rem;'>Aucun lien consulté récemment</p>";
-        return;
-    }
-
-    container.innerHTML = `
-        <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Derniers liens consultés</h4>
-        <ul class="course-list">
-            ${history.map(h => `
-                <li class="course-item">
-                    <a href="${h.url}" class="course-link">${h.title}</a>
-                </li>
-            `).join("")}
-        </ul>
-    `;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadModuleHistory("module1");
-    loadModuleHistory("module2");
-    loadModuleHistory("module3");
-    loadModuleHistory("module4");
-});
-</script>
-    <script>
-function loadModuleHistory(moduleId) {
-    const key = "history_" + moduleId;
-    const container = document.getElementById("history-" + moduleId);
-
-    if (!container) return;
-
-    const history = JSON.parse(localStorage.getItem(key)) || [];
-
-    if (history.length === 0) {
-        container.innerHTML = "<p style='color: var(--text-secondary); font-size: 0.9rem;'>Aucun lien consulté récemment</p>";
-        return;
-    }
-
-    container.innerHTML = `
-        <ul class="course-list">
-            ${history.map(h => `
-                <li class="course-item">
-                    <a href="${h.url}" class="course-link">${h.title}</a>
-                </li>
-            `).join("")}
-        </ul>
-    `;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadModuleHistory("module1");
-    loadModuleHistory("module2");
-    loadModuleHistory("module3");
-    loadModuleHistory("module4");
-});
-</script>
 </body>
 
-
 </html>
-
-
-
-
-
-
-
