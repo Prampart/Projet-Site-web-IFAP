@@ -508,6 +508,12 @@
             </div>
         </div>
 
+        <!-- Historique des derniers liens consultés -->
+<section class="modules-section">
+    <h2 class="section-title">Derniers liens consultés</h2>
+    <ul id="recent-links" class="course-list"></ul>
+</section>
+
         <!-- Modules Section -->
         <section class="modules-section" aria-labelledby="modulesTitle">
             <h2 id="modulesTitle" class="section-title">Vos Modules de Formation</h2>
@@ -937,8 +943,52 @@
             });
         })();
     </script>
+    <script>
+// Enregistre un lien cliqué
+document.addEventListener("click", function(e) {
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    const href = link.getAttribute("href");
+    const text = link.textContent.trim();
+
+    // On ignore les liens vides ou #
+    if (!href || href === "#") return;
+
+    // Récupérer l'historique existant
+    let history = JSON.parse(localStorage.getItem("recentLinks") || "[]");
+
+    // Ajouter le nouveau lien en tête
+    history.unshift({ text, href });
+
+    // Garder seulement les 2 derniers
+    history = history.slice(0, 2);
+
+    // Sauvegarder
+    localStorage.setItem("recentLinks", JSON.stringify(history));
+
+    // Mettre à jour l'affichage
+    displayRecentLinks();
+});
+
+// Affiche les 2 derniers liens
+function displayRecentLinks() {
+    const container = document.getElementById("recent-links");
+    if (!container) return;
+
+    const history = JSON.parse(localStorage.getItem("recentLinks") || "[]");
+
+    container.innerHTML = history
+        .map(item => `<li class="course-item"><a href="${item.href}" class="course-link">${item.text}</a></li>`)
+        .join("");
+}
+
+// Affichage au chargement
+displayRecentLinks();
+</script>
 </body>
 
 
 </html>
+
 
