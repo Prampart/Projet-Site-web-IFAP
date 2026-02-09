@@ -89,15 +89,17 @@
             color: var(--text-secondary);
         }
 
+        /* Stats Bar */
         .stats-bar {
-            margin: 1.5rem 0;
-            padding: 1.25rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
 
         .stat-item {
@@ -106,10 +108,71 @@
 
         .stat-number {
             font-size: 1.8rem;
-            color: var(--accent);
             font-weight: 700;
+            color: var(--accent);
         }
 
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Module Cards */
+        .modules-section {
+            margin-top: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .module-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .module-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.06);
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .module-title a {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .module-title a:hover {
+            text-decoration: underline;
+        }
+
+        .module-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
         .modules-section {
             margin-top: 2rem;
         }
@@ -310,3 +373,4 @@
 
 </body>
 </html>
+
