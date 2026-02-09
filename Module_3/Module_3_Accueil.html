@@ -340,21 +340,34 @@
             label.textContent = root.classList.contains("light") ? "Clair" : "Sombre";
         });
 
-        /* HISTORIQUE */
-        document.addEventListener("click", e => {
-            const link = e.target.closest("a.course-link");
-            if (!link) return;
+    <!-- SCRIPT OPTION A : Historique Module 3 -->
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
 
-            const key = "history_module3";
-            let history = JSON.parse(localStorage.getItem(key)) || [];
+        document.addEventListener("DOMContentLoaded", () => {
 
-            history.unshift({
-                title: link.textContent.trim(),
-                url: link.getAttribute("href")
+            const moduleId = document.body.getAttribute("data-module");
+            const historyKey = "history_" + moduleId;
+
+            const links = document.querySelectorAll("a.course-link");
+
+            links.forEach(link => {
+                link.addEventListener("click", () => {
+
+                    const entry = {
+                        title: link.textContent.trim(),
+                        url: link.getAttribute("href"),
+                        timestamp: Date.now()
+                    };
+
+                    let history = JSON.parse(localStorage.getItem(historyKey)) || [];
+
+                    history.unshift(entry);
+                    history = history.slice(0, 2);
+
+                    localStorage.setItem(historyKey, JSON.stringify(history));
+                });
             });
-
-            history = history.slice(0, 2);
-            localStorage.setItem(key, JSON.stringify(history));
         });
     </script>
 
