@@ -197,6 +197,32 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
+        .search-results {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 50;
+}
+
+.search-result-item {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.search-result-item:hover {
+    background: var(--bg-tertiary);
+    color: var(--accent);
+}
     </style>
 </head>
 
@@ -213,6 +239,7 @@
                     class="search-input"
                     id="searchInput"
                     placeholder="Rechercher un module ou un mot-clé...">
+                <div id="searchResults" class="search-results"></div>
             </div>
 
             <div class="controls">
@@ -228,7 +255,7 @@
         <section class="hero">
             <h1>Plateforme de Cours IFAP</h1>
             <p>Organisez, consultez et explorez tous vos cours de formation en puériculture</p>
-            <p class="search-info">Tape un mot-clé pour filtrer les modules (ex : "nouveau-né", "API", "pathologies")</p>
+            <p class="search-info"></p>
         </section>
 
         <!-- MODULES -->
@@ -330,7 +357,55 @@
                 });
             });
         })();
+        // --- MOTEUR DE RECHERCHE GLOBAL ---
+(function () {
+    const input = document.getElementById("searchInput");
+    const resultsBox = document.getElementById("searchResults");
+
+    // Récupère TOUS les liens du site
+    const allLinks = Array.from(document.querySelectorAll("a"))
+        .filter(a => a.getAttribute("href") && !a.getAttribute("href").startsWith("#"));
+
+    input.addEventListener("input", function () {
+        const q = input.value.trim().toLowerCase();
+
+        if (!q) {
+            resultsBox.style.display = "none";
+            resultsBox.innerHTML = "";
+            return;
+        }
+
+        // Filtre les liens selon le texte
+        const matches = allLinks.filter(a =>
+            a.textContent.toLowerCase().includes(q) ||
+            a.getAttribute("href").toLowerCase().includes(q)
+        );
+
+        if (matches.length === 0) {
+            resultsBox.innerHTML = `<div class="search-result-item">Aucun résultat</div>`;
+            resultsBox.style.display = "block";
+            return;
+        }
+
+        // Affiche les résultats
+        resultsBox.innerHTML = matches.map(a => `
+            <div class="search-result-item" onclick="window.location.href='${a.getAttribute("href")}'">
+                ${a.textContent || a.getAttribute("href")}
+            </div>
+        `).join("");
+
+        resultsBox.style.display = "block";
+    });
+
+    // Ferme la liste si on clique ailleurs
+    document.addEventListener("click", function (e) {
+        if (!document.querySelector(".search-container").contains(e.target)) {
+            resultsBox.style.display = "none";
+        }
+    });
+})();
     </script>
 
 </body>
 </html>
+
