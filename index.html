@@ -26,7 +26,6 @@
             --transition: all 0.3s ease;
         }
 
-        /* Thème clair */
         :root.light {
             --bg-primary: #ffffff;
             --bg-secondary: #f5f7fb;
@@ -47,7 +46,6 @@
             transition: background-color .35s ease, color .35s ease;
         }
 
-        /* HEADER CENTRÉ + MODERNE */
         header {
             position: sticky;
             top: 0;
@@ -82,7 +80,6 @@
             color: var(--text-primary);
         }
 
-        /* BARRE DE RECHERCHE CENTRÉE */
         .search-container {
             width: 100%;
             max-width: 400px;
@@ -98,11 +95,33 @@
             color: var(--text-primary);
         }
 
-        .search-input::placeholder {
-            color: var(--text-secondary);
+        .search-results {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 50;
         }
 
-        /* BOUTON THÈME */
+        .search-result-item {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--accent);
+        }
+
         .controls {
             display: flex;
             align-items: center;
@@ -118,14 +137,12 @@
             font-size: 0.9rem;
         }
 
-        /* CONTENU PRINCIPAL */
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* HERO CENTRÉ */
         .hero {
             text-align: center;
             margin-bottom: 2rem;
@@ -141,7 +158,6 @@
             font-size: 1.1rem;
         }
 
-        /* GRILLE RESPONSIVE MODERNE */
         .modules-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -150,7 +166,6 @@
             margin-top: 2rem;
         }
 
-        /* CARDS MODERNISÉES */
         .module-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -174,11 +189,6 @@
             color: var(--accent);
         }
 
-        .module-title a {
-            color: inherit;
-            text-decoration: none;
-        }
-
         .module-description {
             color: var(--text-secondary);
             margin-top: 0.5rem;
@@ -189,180 +199,136 @@
             padding: 2rem;
             color: var(--text-secondary);
         }
-
-        /* Message de recherche */
-        .search-info {
-            text-align: center;
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        .search-results {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    right: 0;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    max-height: 300px;
-    overflow-y: auto;
-    display: none;
-    z-index: 50;
-}
-
-.search-result-item {
-    padding: 0.7rem 1rem;
-    cursor: pointer;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-primary);
-    transition: var(--transition);
-}
-
-.search-result-item:hover {
-    background: var(--bg-tertiary);
-    color: var(--accent);
-}
-        .tool-btn {
-    border: 1px solid var(--border-color);
-    background: transparent;
-    padding: 0.45rem 0.6rem;
-    border-radius: 8px;
-    cursor: pointer;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    transition: var(--transition);
-}
-
-.tool-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-        
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="header-content">
-            <a href="#" class="logo">IFAP <span>Puériculture</span></a>
+<header>
+    <div class="header-content">
+        <a href="#" class="logo">IFAP <span>Puériculture</span></a>
 
-            <div class="search-container">
-                <input
-                    type="text"
-                    class="search-input"
-                    id="searchInput"
-                    placeholder="Rechercher un module ou un mot-clé...">
-            </div>
-
-            <div class="controls">
-                <button id="themeToggle" class="theme-toggle">Thème</button>
-            </div>
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Pose une question à l’IA...">
+            <div id="searchResults" class="search-results"></div>
         </div>
-    </header>
 
-    <!-- CONTENU -->
-    <main class="container">
+        <div class="controls">
+            <button id="themeToggle" class="theme-toggle">Thème</button>
+        </div>
+    </div>
+</header>
 
-        <!-- HERO -->
-        <section class="hero">
-            <h1>Plateforme de Cours IFAP</h1>
-            <p>Organisez, consultez et explorez tous vos cours de formation en puériculture</p>
-            <p class="search-info"></p>
-        </section>
+<main class="container">
 
-        <!-- MODULES -->
-        <section class="modules-section" id="modulesSection">
+    <section class="hero">
+        <h1>Plateforme de Cours IFAP</h1>
+        <p>Organisez, consultez et explorez tous vos cours de formation en puériculture</p>
+    </section>
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="Module_1/Module_1_Accueil.html">Module 1</a></h3>
-                <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
-            </div>
+    <section class="modules-section">
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="Module_2/Module_2_Accueil.html">Module 2</a></h3>
-                <p class="module-description">Le nouveau-né et ses caractéristiques</p>
-            </div>
+        <div class="module-card">
+            <h3 class="module-title"><a href="Module_1/Module_1_Accueil.html">Module 1</a></h3>
+            <p class="module-description">Fondamentaux de la puériculture et petite enfance</p>
+        </div>
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="Module_3/Module_3_Accueil.html">Module 3</a></h3>
-                <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
-            </div>
+        <div class="module-card">
+            <h3 class="module-title"><a href="Module_2/Module_2_Accueil.html">Module 2</a></h3>
+            <p class="module-description">Le nouveau-né et ses caractéristiques</p>
+        </div>
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="Module_4/Module_4_Accueil.html">Module 4</a></h3>
-                <p class="module-description">Pathologies, soins et surveillance des enfants</p>
-            </div>
+        <div class="module-card">
+            <h3 class="module-title"><a href="Module_3/Module_3_Accueil.html">Module 3</a></h3>
+            <p class="module-description">La cellule, les tissus, la peau et les signes d'alerte</p>
+        </div>
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="API_Maths/API_Maths.html">API Maths</a></h3>
-                <p class="module-description">Exercices et calculs pour s'entraîner en mathématiques</p>
-            </div>
+        <div class="module-card">
+            <h3 class="module-title"><a href="Module_4/Module_4_Accueil.html">Module 4</a></h3>
+            <p class="module-description">Pathologies, soins et surveillance des enfants</p>
+        </div>
 
-            <div class="module-card">
-                <h3 class="module-title"><a href="API_Francais/API_Francais.html">API Français</a></h3>
-                <p class="module-description">Orthographe, grammaire et expression écrite</p>
-            </div>
+        <div class="module-card">
+            <h3 class="module-title"><a href="API_Maths/API_Maths.html">API Maths</a></h3>
+            <p class="module-description">Exercices et calculs pour s'entraîner en mathématiques</p>
+        </div>
 
-        </section>
-    </main>
+        <div class="module-card">
+            <h3 class="module-title"><a href="API_Francais/API_Francais.html">API Français</a></h3>
+            <p class="module-description">Orthographe, grammaire et expression écrite</p>
+        </div>
 
-    <footer>
-        © <span id="year"></span> Erwann PRAMPART - Tous droits réservés
-    </footer>
-    <script>
-        // Année dynamique
-        document.getElementById("year").textContent = new Date().getFullYear();
+    </section>
+</main>
 
-        // Gestion du thème clair / sombre
-        (function () {
-            const root = document.documentElement;
-            const toggleBtn = document.getElementById('themeToggle');
-            const STORAGE_KEY = 'ifap_theme';
+<footer>
+    © <span id="year"></span> Erwann PRAMPART - Tous droits réservés
+</footer>
 
-            function applyTheme(theme) {
-                if (theme === 'light') {
-                    root.classList.add('light');
-                } else {
-                    root.classList.remove('light');
-                }
-            }
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-            function initTheme() {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved === 'light' || saved === 'dark') {
-                    applyTheme(saved);
-                } else {
-                    const prefersLight = window.matchMedia &&
-                        window.matchMedia('(prefers-color-scheme: light)').matches;
-                    applyTheme(prefersLight ? 'light' : 'dark');
-                }
-            }
+    (function () {
+        const root = document.documentElement;
+        const toggleBtn = document.getElementById('themeToggle');
+        const STORAGE_KEY = 'ifap_theme';
 
-            function toggleTheme() {
-                const isLight = root.classList.contains('light');
-                const newTheme = isLight ? 'dark' : 'light';
-                applyTheme(newTheme);
-                try {
-                    localStorage.setItem(STORAGE_KEY, newTheme);
-                } catch (e) {
-                    console.warn('Impossible de sauvegarder le thème', e);
-                }
-            }
+        function applyTheme(theme) {
+            root.classList.toggle('light', theme === 'light');
+        }
 
-            initTheme();
-            toggleBtn.addEventListener('click', toggleTheme);
-        })();
-})();
-    </script>
+        function initTheme() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            applyTheme(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const newTheme = root.classList.contains('light') ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem(STORAGE_KEY, newTheme);
+        });
+
+        initTheme();
+    })();
+
+    /* ------------------------------
+       🔥 IA GOOGLE — APPEL SERVEUR
+    ------------------------------ */
+    async function askAI(prompt) {
+        const res = await fetch("http://localhost:3000/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+        return data.answer;
+    }
+
+    /* ------------------------------
+       🔥 BARRE DE RECHERCHE → IA
+    ------------------------------ */
+    const input = document.getElementById("searchInput");
+    const resultsBox = document.getElementById("searchResults");
+
+    input.addEventListener("keydown", async function (e) {
+        if (e.key === "Enter") {
+            const question = input.value.trim();
+            if (!question) return;
+
+            resultsBox.style.display = "block";
+            resultsBox.innerHTML = "<div class='search-result-item'>Analyse en cours...</div>";
+
+            const answer = await askAI(question);
+
+            resultsBox.innerHTML = `
+                <div class="search-result-item">
+                    ${answer.replace(/\n/g, "<br>")}
+                </div>
+            `;
+        }
+    });
+</script>
 
 </body>
 </html>
-
-
-
-
-
-
