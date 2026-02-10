@@ -521,15 +521,32 @@ document.querySelectorAll(".closeModal").forEach(btn => {
 });
 
 // --- CORRECTEUR D'ORTHOGRAPHE ---
-document.getElementById("runCorrector").onclick = () => {
-    let text = document.getElementById("correctorInput").value;
+document.getElementById("runCorrector").onclick = async () => {
+    const text = document.getElementById("correctorInput").value;
 
-    // Correcteur simple basé sur dictionnaire
-    text = text.replace(/\bca\b/gi, "ça");
-    text = text.replace(/\bj ai\b/gi, "j'ai");
-    text = text.replace(/\bqu il\b/gi, "qu'il");
+    const res = await fetch("https://api.languagetool.org/v2/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            text: text,
+            language: "fr"
+        })
+    });
 
-    document.getElementById("correctorOutput").value = text;
+    const data = await res.json();
+
+    let corrected = text;
+
+    data.matches.forEach(match => {
+        if (match.replacements.length > 0) {
+            corrected = corrected.replace(
+                text.substring(match.offset, match.offset + match.length),
+                match.replacements[0].value
+            );
+        }
+    });
+
+    document.getElementById("correctorOutput").value = corrected;
 };
 
 // --- CALCULATRICE ---
@@ -564,6 +581,7 @@ document.getElementById("runTranslate").onclick = async () => {
 
 </body>
 </html>
+
 
 
 
