@@ -355,73 +355,12 @@
             initTheme();
             toggleBtn.addEventListener('click', toggleTheme);
         })();
-
-        // Recherche : filtre les modules en fonction du texte saisi
-        (function () {
-            const input = document.getElementById('searchInput');
-            const cards = Array.from(document.querySelectorAll('.module-card'));
-
-            input.addEventListener('input', function () {
-                const q = input.value.trim().toLowerCase();
-
-                cards.forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    const match = text.includes(q);
-                    card.style.display = match ? '' : 'none';
-                });
-            });
-        })();
-        // --- MOTEUR DE RECHERCHE GLOBAL ---
-(function () {
-    const input = document.getElementById("searchInput");
-    const resultsBox = document.getElementById("searchResults");
-
-    // Récupère TOUS les liens du site
-    const allLinks = Array.from(document.querySelectorAll("a"))
-        .filter(a => a.getAttribute("href") && !a.getAttribute("href").startsWith("#"));
-
-    input.addEventListener("input", function () {
-        const q = input.value.trim().toLowerCase();
-
-        if (!q) {
-            resultsBox.style.display = "none";
-            resultsBox.innerHTML = "";
-            return;
-        }
-
-        // Filtre les liens selon le texte
-        const matches = allLinks.filter(a =>
-            a.textContent.toLowerCase().includes(q) ||
-            a.getAttribute("href").toLowerCase().includes(q)
-        );
-
-        if (matches.length === 0) {
-            resultsBox.innerHTML = `<div class="search-result-item">Aucun résultat</div>`;
-            resultsBox.style.display = "block";
-            return;
-        }
-
-        // Affiche les résultats
-        resultsBox.innerHTML = matches.map(a => `
-            <div class="search-result-item" onclick="window.location.href='${a.getAttribute("href")}'">
-                ${a.textContent || a.getAttribute("href")}
-            </div>
-        `).join("");
-
-        resultsBox.style.display = "block";
-    });
-
-    // Ferme la liste si on clique ailleurs
-    document.addEventListener("click", function (e) {
-        if (!document.querySelector(".search-container").contains(e.target)) {
-            resultsBox.style.display = "none";
-        }
-    });
 })();
     </script>
 
 </body>
 </html>
+
 
 
 
