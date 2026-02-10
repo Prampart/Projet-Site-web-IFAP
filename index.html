@@ -223,6 +223,72 @@
     background: var(--bg-tertiary);
     color: var(--accent);
 }
+        .tool-btn {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.tool-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+        /* Boutons outils */
+.tool-btn {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.tool-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+        /* Modales outils */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid var(--border-color);
+}
+
+.modal-content textarea,
+.modal-content input {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.modal-content button {
+    margin-top: 1rem;
+}
     </style>
 </head>
 
@@ -243,6 +309,9 @@
 
             <div class="controls">
                 <button id="themeToggle" class="theme-toggle">Thème</button>
+                <button class="tool-btn" id="openCorrector">Correcteur</button>
+                <button class="tool-btn" id="openCalculator">Calculatrice</button>
+                <button class="tool-btn" id="openTranslator">Traduction</button>
             </div>
         </div>
     </header>
@@ -296,7 +365,38 @@
     <footer>
         © <span id="year"></span> Erwann PRAMPART - Tous droits réservés
     </footer>
+<!-- MODAL CORRECTEUR -->
+<div class="modal" id="modalCorrector">
+    <div class="modal-content">
+        <h2>Correcteur d'orthographe</h2>
+        <textarea id="correctorInput" placeholder="Écris ton texte ici..."></textarea>
+        <button id="runCorrector">Corriger</button>
+        <textarea id="correctorOutput" placeholder="Texte corrigé..." readonly></textarea>
+        <button class="closeModal">Fermer</button>
+    </div>
+</div>
 
+<!-- MODAL CALCULATRICE -->
+<div class="modal" id="modalCalculator">
+    <div class="modal-content">
+        <h2>Calculatrice</h2>
+        <input id="calcInput" placeholder="Ex : 12*3 + 5">
+        <button id="runCalc">Calculer</button>
+        <input id="calcOutput" placeholder="Résultat" readonly>
+        <button class="closeModal">Fermer</button>
+    </div>
+</div>
+
+<!-- MODAL TRADUCTION -->
+<div class="modal" id="modalTranslator">
+    <div class="modal-content">
+        <h2>Traduction FR ↔ EN</h2>
+        <textarea id="transInput" placeholder="Texte à traduire..."></textarea>
+        <button id="runTranslate">Traduire</button>
+        <textarea id="transOutput" placeholder="Traduction..." readonly></textarea>
+        <button class="closeModal">Fermer</button>
+    </div>
+</div>
     <script>
         // Année dynamique
         document.getElementById("year").textContent = new Date().getFullYear();
@@ -403,9 +503,67 @@
         }
     });
 })();
+        // --- OUVERTURE / FERMETURE DES MODALES ---
+function openModal(id) {
+    document.getElementById(id).style.display = "flex";
+}
+
+function closeAllModals() {
+    document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+}
+
+document.getElementById("openCorrector").onclick = () => openModal("modalCorrector");
+document.getElementById("openCalculator").onclick = () => openModal("modalCalculator");
+document.getElementById("openTranslator").onclick = () => openModal("modalTranslator");
+
+document.querySelectorAll(".closeModal").forEach(btn => {
+    btn.onclick = closeAllModals;
+});
+
+// --- CORRECTEUR D'ORTHOGRAPHE ---
+document.getElementById("runCorrector").onclick = () => {
+    let text = document.getElementById("correctorInput").value;
+
+    // Correcteur simple basé sur dictionnaire
+    text = text.replace(/\bca\b/gi, "ça");
+    text = text.replace(/\bj ai\b/gi, "j'ai");
+    text = text.replace(/\bqu il\b/gi, "qu'il");
+
+    document.getElementById("correctorOutput").value = text;
+};
+
+// --- CALCULATRICE ---
+document.getElementById("runCalc").onclick = () => {
+    try {
+        const result = eval(document.getElementById("calcInput").value);
+        document.getElementById("calcOutput").value = result;
+    } catch {
+        document.getElementById("calcOutput").value = "Erreur";
+    }
+};
+
+// --- TRADUCTION FR ↔ EN ---
+document.getElementById("runTranslate").onclick = async () => {
+    const text = document.getElementById("transInput").value;
+
+    const res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
+        body: JSON.stringify({
+            q: text,
+            source: "fr",
+            target: "en",
+            format: "text"
+        }),
+        headers: { "Content-Type": "application/json" }
+    });
+
+    const data = await res.json();
+    document.getElementById("transOutput").value = data.translatedText;
+};
     </script>
 
 </body>
 </html>
+
 
 
