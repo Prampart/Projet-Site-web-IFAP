@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UIkit Exemple</title>
+  <style>
+    /* CSS inclus */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+    }
+
+    header {
+      background-color: #0073e6;
+      padding: 1rem 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      color: #fff;
+    }
+
+    .nav-links {
+      list-style-type: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: #f4f4f4;
+    }
+
+    #hero h1 {
+      margin-bottom: 2rem;
+    }
+
+    #actionBtn {
+      padding: 0.5rem 2rem;
+      color: #fff;
+      background-color: #0073e6;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background-color: white;
+      padding: 1.5rem;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #0073e6;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="#" class="logo">MonProjetUI</a>
+      <ul class="nav-links">
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero">
+      <h1>Bienvenue dans votre UIkit</h1>
+      <button id="actionBtn">Cliquez-moi</button>
+    </section>
+
+    <section id="cards">
+      <div class="card">
+        <h2>Titre de carte</h2>
+        <p>Une description rapide ici pour montrer l'exemple.</p>
+      </div>
+      <div class="card">
+        <h2>Une autre carte</h2>
+        <p>Personnalisez cela selon vos besoins.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 MonProjetUI. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    // JavaScript inclus
+    document.addEventListener("DOMContentLoaded", () => {
+      const actionBtn = document.getElementById('actionBtn');
+
+      actionBtn.addEventListener('click', () => {
+        alert('Bouton cliqué !');
+      });
+    });
+  </script>
+</body>
+</html>
